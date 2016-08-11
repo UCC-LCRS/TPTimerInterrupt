@@ -20,7 +20,6 @@
 
 #define ONE_SECOND 1000
 
-void APP_ISR_1ms(void);
 
 TIM_HandleTypeDef TIM2_Handle;
 
@@ -88,9 +87,7 @@ void TIM2_IRQHandler(void) {
 	static uint16_t counter = ONE_SECOND;
 
 	__HAL_TIM_CLEAR_FLAG(&TIM2_Handle, TIM_FLAG_UPDATE);
-	
-	APP_ISR_1ms();
-	
+
 		if (counter) {
 		counter--;
 		if (!counter) {
