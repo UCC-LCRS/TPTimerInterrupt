@@ -8,7 +8,7 @@
 #include "stm32f4xx.h"
 #include "stm32f4_discovery.h"
 
-#define ONE_SECOND 1000
+extern void APP_1ms(void);
 
 TIM_HandleTypeDef TIM2_Handle;
 
@@ -47,7 +47,7 @@ void BSP_Init(void){
 		GPIO_Init.Mode = GPIO_MODE_OUTPUT_PP;
 		GPIO_Init.Pull = GPIO_NOPULL;
 		GPIO_Init.Speed = GPIO_SPEED_FAST;
-		GPIO_Init.Pin = ALL_DISCOVERY_LEDS;
+		GPIO_Init.Pin = ALL_LEDS;
 		HAL_GPIO_Init(LEDS_PORT, &GPIO_Init);
 
 		__TIM2_CLK_ENABLE()
@@ -66,16 +66,21 @@ void BSP_Init(void){
 		HAL_NVIC_EnableIRQ(TIM2_IRQn);
 }
 
+void LedToggle(uint16_t led){
+	HAL_GPIO_TogglePin(LEDS_PORT, led);
+}
+
+void LedOn(uint16_t led){
+	HAL_GPIO_WritePin(LEDS_PORT, led, GPIO_PIN_SET);
+}
+
+void LedOff(uint16_t led){
+	HAL_GPIO_WritePin(LEDS_PORT, led, GPIO_PIN_RESET);
+}
+
 void TIM2_IRQHandler(void) {
-	static uint16_t counter = ONE_SECOND;
 
 	__HAL_TIM_CLEAR_FLAG(&TIM2_Handle, TIM_FLAG_UPDATE);
+	APP_1ms();
 
-	if (counter) {
-		counter--;
-		if (!counter) {
-			HAL_GPIO_TogglePin(LEDS_PORT, ALL_DISCOVERY_LEDS);
-			counter = ONE_SECOND;
-		}
-	}
 }

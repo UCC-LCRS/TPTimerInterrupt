@@ -10,17 +10,29 @@
 
 #include "bsp/bsp.h"
 
+#define ONE_SECOND 1000
 
-
-
+void APP_1ms(void);
 
 int main(void) {
 
 	BSP_Init();
 
 	while (1) {
-		//En el while no se hace nada gracias a la interrupcion
+
 	}
+}
+
+void APP_1ms(void){
+	static uint16_t counter = ONE_SECOND;
+
+		if (counter) {
+			counter--;
+			if (!counter) {
+				LedToggle(ALL_LEDS);
+				counter = ONE_SECOND;
+			}
+		}
 }
 
 

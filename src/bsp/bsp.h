@@ -8,14 +8,20 @@
 #ifndef BSP_BSP_H_
 #define BSP_BSP_H_
 
-#define LED_NARANJA GPIO_PIN_13
-#define LED_VERDE GPIO_PIN_12
-#define LED_ROJO GPIO_PIN_14
-#define LED_AZUL GPIO_PIN_15
-#define ALL_DISCOVERY_LEDS LED_AZUL | LED_ROJO | LED_NARANJA | LED_VERDE
+#include "stdint.h"
+
+#define LED_NARANJA (uint16_t)0x2000U
+#define LED_VERDE (uint16_t)0x1000U
+#define LED_ROJO (uint16_t)0x4000U
+#define LED_AZUL (uint16_t)0x8000U
+#define ALL_LEDS LED_AZUL | LED_ROJO | LED_NARANJA | LED_VERDE
 #define LEDS_PORT GPIOD
 
 void BSP_Init(void);
+
+void LedToggle(uint16_t led);
+void LedOff(uint16_t led);
+void LedOn(uint16_t led);
 
 
 #endif /* BSP_BSP_H_ */
