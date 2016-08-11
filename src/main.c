@@ -69,7 +69,7 @@ int main(void) {
 
 	TIM2_Handle.Instance = TIM2;
 	TIM2_Handle.Init.Period = 1000 - 1;
-	TIM2_Handle.Init.Prescaler = 86 - 1;
+	TIM2_Handle.Init.Prescaler = 84 - 1;
 	TIM2_Handle.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	TIM2_Handle.Init.CounterMode = TIM_COUNTERMODE_UP;
 
