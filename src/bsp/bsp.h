@@ -22,6 +22,7 @@ void BSP_Init(void);
 void LedToggle(uint16_t led);
 void LedOff(uint16_t led);
 void LedOn(uint16_t led);
+uint32_t Get_SW_State(void);
 
 
 #endif /* BSP_BSP_H_ */

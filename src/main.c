@@ -17,36 +17,60 @@ void APP_1ms(void);
 void delay(uint16_t delay_ms);
 
 volatile uint16_t counter = 0;
+int8_t estado = 0;
 
 int main(void) {
 
 	BSP_Init();
 
 	while (1) {
+		if (!counter) {
+			counter = 1000;
 
-		LedOn(LED_AZUL);
-		delay(1000);
-		LedOff(LED_AZUL);
-		LedOn(LED_ROJO);
-		delay(1000);
-		LedOff(LED_ROJO);
-		LedOn(LED_NARANJA);
-		delay(1000);
-		LedOff(LED_NARANJA);
-		LedOn(LED_VERDE);
-		delay(1000);
-		LedOff(LED_VERDE);
+			if (Get_SW_State())
+				estado++;
+			else
+				estado--;
+
+			if (estado > 3)
+				estado = 0;
+			if (estado < 0)
+				estado = 3;
+
+			LedOff(ALL_LEDS);
+			switch (estado) {
+			case 0:
+				LedOn(LED_AZUL);
+				break;
+
+			case 1:
+				LedOn(LED_ROJO);
+				break;
+
+			case 2:
+				LedOn(LED_NARANJA);
+				break;
+
+			case 3:
+				LedOn(LED_VERDE);
+				break;
+
+			}
+		}
+
 	}
 }
 
 void delay(uint16_t delay_ms) {
 	counter = delay_ms;
-	while(counter);
+	while (counter)
+		;
 }
 
 void APP_1ms(void) {
 	if (counter) {
 		counter--;
+
 	}
 }
 
