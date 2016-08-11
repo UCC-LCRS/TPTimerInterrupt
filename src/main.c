@@ -80,25 +80,22 @@ int main(void) {
 	HAL_NVIC_EnableIRQ(TIM2_IRQn);
 
 	while (1) {
-		//En el while no se hace nada gracias a la interrupción
+		//En el while no se hace nada gracias a la interrupciÃ³n
 	}
 }
 
-void APP_ISR_1ms(void) {
+void TIM2_IRQHandler(void) {
 	static uint16_t counter = ONE_SECOND;
 
-	if (counter) {
+	__HAL_TIM_CLEAR_FLAG(&TIM2_Handle, TIM_FLAG_UPDATE);
+	
+	APP_ISR_1ms();
+	
+		if (counter) {
 		counter--;
 		if (!counter) {
 			HAL_GPIO_TogglePin(LEDS_PORT, ALL_DISCOVERY_LEDS);
 			counter = ONE_SECOND;
 		}
 	}
-}
-
-void TIM2_IRQHandler(void) {
-
-	__HAL_TIM_CLEAR_FLAG(&TIM2_Handle, TIM_FLAG_UPDATE);
-	APP_ISR_1ms();
-
 }
